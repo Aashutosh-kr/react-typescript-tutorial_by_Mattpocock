@@ -20,6 +20,6 @@
     }
   },
   "include": [
-    "D:/Webdevstuff/react_typescript_tut/src/02-components/08-using-html-props.problem.tsx"
+    "D:/Webdevstuff/react_typescript_tut/src/02-components/10-extracting-props-from-custom-components.problem.tsx"
   ]
 }
