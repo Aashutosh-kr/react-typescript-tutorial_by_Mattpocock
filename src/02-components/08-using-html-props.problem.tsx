@@ -1,10 +1,12 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 
-interface ButtonProps
-	extends React.DetailedHTMLProps<
-		React.ButtonHTMLAttributes<HTMLButtonElement>,
-		HTMLButtonElement
-	> {}
+// interface ButtonProps
+// 	extends React.DetailedHTMLProps<
+// 		React.ButtonHTMLAttributes<HTMLButtonElement>,
+// 		HTMLButtonElement
+// 	> {}  /* Can be done but not good and very very long */
+
+type ButtonProps = ComponentProps<"button">; /* Better way */
 
 export const Button = ({ className, ...rest }: ButtonProps) => {
 	return (
