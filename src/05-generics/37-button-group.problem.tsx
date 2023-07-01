@@ -1,8 +1,8 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-interface ButtonGroupProps<T> {
+interface ButtonGroupProps<T extends string> {
 	buttons: {
-		value: T extends string ? T : never;
+		value: T;
 		/* Why? Don't (part of) know but it works*/
 		/* BTW I didn't saw the solution beforehand */
 		label: string;
@@ -19,7 +19,7 @@ interface ButtonGroupProps<T> {
  *
  * 1. Try to solve this problem using generics.
  */
-const ButtonGroup = <T,>(props: ButtonGroupProps<T>) => {
+const ButtonGroup = <T extends string>(props: ButtonGroupProps<T>) => {
 	return (
 		<div>
 			{props.buttons.map(button => {
