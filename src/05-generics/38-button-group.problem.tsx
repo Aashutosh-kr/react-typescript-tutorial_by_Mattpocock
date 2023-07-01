@@ -1,8 +1,8 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-interface ButtonGroupProps<TButtons extends string[]> {
-  buttons: TButtons;
-  onClick: (value: TButtons[number]) => void;
+interface ButtonGroupProps<TButtons extends string> {
+	buttons: TButtons[];
+	onClick: (value: TButtons) => void;
 }
 
 /**
@@ -15,36 +15,36 @@ interface ButtonGroupProps<TButtons extends string[]> {
  *
  * OR you might be able to fix it by changing the type of the type argument.
  */
-const ButtonGroup = <TButtons extends string[]>(
-  props: ButtonGroupProps<TButtons>,
+const ButtonGroup = <TButtons extends string>(
+	props: ButtonGroupProps<TButtons>
 ) => {
-  return (
-    <div>
-      {props.buttons.map((button) => {
-        return (
-          <button
-            key={button}
-            onClick={() => {
-              props.onClick(button);
-            }}
-          >
-            {button}
-          </button>
-        );
-      })}
-    </div>
-  );
+	return (
+		<div>
+			{props.buttons.map(button => {
+				return (
+					<button
+						key={button}
+						onClick={() => {
+							props.onClick(button);
+						}}
+					>
+						{button}
+					</button>
+				);
+			})}
+		</div>
+	);
 };
 
 <>
-  <ButtonGroup
-    onClick={(value) => {
-      /**
-       * Instead of inferring the type of `value` to be "add" | "delete", it's
-       * now inferred to be `string`.
-       */
-      type test = Expect<Equal<typeof value, "add" | "delete">>;
-    }}
-    buttons={["add", "delete"]}
-  ></ButtonGroup>
+	<ButtonGroup
+		onClick={value => {
+			/**
+			 * Instead of inferring the type of `value` to be "add" | "delete", it's
+			 * now inferred to be `string`.
+			 */
+			type test = Expect<Equal<typeof value, "add" | "delete">>;
+		}}
+		buttons={["add", "delete"]}
+	></ButtonGroup>
 </>;
