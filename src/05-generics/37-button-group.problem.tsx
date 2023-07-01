@@ -1,11 +1,13 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-interface ButtonGroupProps {
-  buttons: {
-    value: string;
-    label: string;
-  }[];
-  onClick: (value: string) => void;
+interface ButtonGroupProps<T> {
+	buttons: {
+		value: T extends string ? T : never;
+		/* Why? Don't (part of) know but it works*/
+		/* BTW I didn't saw the solution beforehand */
+		label: string;
+	}[];
+	onClick: (value: T) => void;
 }
 
 /**
@@ -17,39 +19,39 @@ interface ButtonGroupProps {
  *
  * 1. Try to solve this problem using generics.
  */
-const ButtonGroup = (props: ButtonGroupProps) => {
-  return (
-    <div>
-      {props.buttons.map((button) => {
-        return (
-          <button
-            key={button.value}
-            onClick={() => {
-              props.onClick(button.value);
-            }}
-          >
-            {button.label}
-          </button>
-        );
-      })}
-    </div>
-  );
+const ButtonGroup = <T,>(props: ButtonGroupProps<T>) => {
+	return (
+		<div>
+			{props.buttons.map(button => {
+				return (
+					<button
+						key={button.value}
+						onClick={() => {
+							props.onClick(button.value);
+						}}
+					>
+						{button.label}
+					</button>
+				);
+			})}
+		</div>
+	);
 };
 
 <>
-  <ButtonGroup
-    onClick={(value) => {
-      type test = Expect<Equal<typeof value, "add" | "delete">>;
-    }}
-    buttons={[
-      {
-        value: "add",
-        label: "Add",
-      },
-      {
-        value: "delete",
-        label: "Delete",
-      },
-    ]}
-  ></ButtonGroup>
+	<ButtonGroup
+		onClick={value => {
+			type test = Expect<Equal<typeof value, "add" | "delete">>;
+		}}
+		buttons={[
+			{
+				value: "add",
+				label: "Add",
+			},
+			{
+				value: "delete",
+				label: "Delete",
+			},
+		]}
+	></ButtonGroup>
 </>;
