@@ -1,6 +1,8 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-type InputProps = React.ComponentProps<"input">;
+interface InputProps extends React.ComponentProps<"input"> {
+	type: "text" | "number" | "password";
+}
 
 /**
  * All these components take the same props!
@@ -12,34 +14,34 @@ type InputProps = React.ComponentProps<"input">;
  *
  * Hint: Record and satisfies will come in handy.
  */
-const COMPONENTS = {
-  text: (props) => {
-    return <input {...props} type="text" />;
-  },
-  number: (props) => {
-    return <input {...props} type="number" />;
-  },
-  password: (props) => {
-    return <input {...props} type="password" />;
-  },
+const COMPONENTS: Record<string, (props: InputProps) => JSX.Element> = {
+	text: props => {
+		return <input {...props} type="text" />;
+	},
+	number: props => {
+		return <input {...props} type="number" />;
+	},
+	password: props => {
+		return <input {...props} type="password" />;
+	},
 };
 
-export const Input = (props: unknown) => {
-  const Component = COMPONENTS[props.type];
-  return <Component {...props} />;
+export const Input = (props: InputProps) => {
+	const Component = COMPONENTS[props.type];
+	return <Component {...props} />;
 };
 
 <>
-  <Input
-    type="number"
-    onChange={(e) => {
-      // e should be properly typed!
-      type test = Expect<Equal<typeof e, React.ChangeEvent<HTMLInputElement>>>;
-    }}
-  ></Input>
-  <Input type="text"></Input>
-  <Input type="password"></Input>
+	<Input
+		type="number"
+		onChange={e => {
+			// e should be properly typed!
+			type test = Expect<Equal<typeof e, React.ChangeEvent<HTMLInputElement>>>;
+		}}
+	></Input>
+	<Input type="text"></Input>
+	<Input type="password"></Input>
 
-  {/* @ts-expect-error */}
-  <Input type="email"></Input>
+	{/* @ts-expect-error */}
+	<Input type="email"></Input>
 </>;

@@ -10,7 +10,7 @@ import { Equal, Expect } from "../helpers/type-utils";
  */
 type FuncExpected<Argument> = {
   (arg: Argument): Argument;
-  someOtherThing?: string;
+  // someOtherThing?: string;
 };
 
 /**

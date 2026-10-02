@@ -22,9 +22,11 @@
  * - Indexed access types
  */
 
-export const Wrapper = (props: any) => {
-  const Comp = props.as;
-  return <Comp {...(props as any)}></Comp>;
+export const Wrapper = <T extends { as: keyof JSX.IntrinsicElements }>(
+	props: T
+) => {
+	const Comp = props.as;
+	return <Comp {...(props as any)}></Comp>;
 };
 
 // Should work, and you should get autocomplete on the
@@ -32,9 +34,9 @@ export const Wrapper = (props: any) => {
 const example1 = <Wrapper as="a" href="awdawd"></Wrapper>;
 
 const example2 = (
-  <Wrapper
-    as="div"
-    // @ts-expect-error: Property 'href' does not exist
-    href="awdawd"
-  ></Wrapper>
+	<Wrapper
+		as="div"
+		// @ts-expect-error: Property 'href' does not exist
+		href="awdawd"
+	></Wrapper>
 );
